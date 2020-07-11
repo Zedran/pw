@@ -4,11 +4,10 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"math/rand"
+	"crypto/rand"
 	"os"
 	"strconv"
 	"strings"
-	"time"
 )
 
 const (
@@ -41,25 +40,33 @@ var (
 )
 
 // Generates alphanumeric password in range <33; 125) of ASCII codes
-func alphanumeric(pwLength int) string {
+func alphanumeric(pwLength int) (string, error) {
 	pw := make([]byte, pwLength)
 
-	for i := 0; i < pwLength; i++ {
-		pw[i] = byte(MIN_ALPHANUM_CODE + rand.Intn(ALPHANUM_RANGE))
+	if _, err := rand.Read(pw); err != nil {
+		return "", err
 	}
 
-	return string(pw)
+	for i := range pw {
+		pw[i] = MIN_ALPHANUM_CODE + pw[i] % ALPHANUM_RANGE
+	}
+
+	return string(pw), nil
 }
 
 // Generates numeric password in range <0; 9>
-func numeric(pwLength int) string {
+func numeric(pwLength int) (string, error) {
 	pw := make([]byte, pwLength)
 
-	for i := 0; i < pwLength; i++ {
-		pw[i] = byte(ASCII_ZERO + rand.Intn(10))
+	if _, err := rand.Read(pw); err != nil {
+		return "", err
 	}
 
-	return string(pw)
+	for i := range pw {
+		pw[i] = ASCII_ZERO + pw[i] % 10
+	}
+
+	return string(pw), nil
 }
 
 /* Gets password length from the argument passed and ensures it is non-negative integer lesser
@@ -86,14 +93,19 @@ func main() {
 		log.Fatalf(ERR_INFO, err.Error())
 	}
 
-	rand.Seed(time.Now().UTC().UnixNano())
+	var pw string
 
 	switch strings.ToUpper(os.Args[1]) {
 	case "N":
-		fmt.Println("\nYour password: ", numeric(length))
+		pw, err = numeric(length)
 	case "A":
-		fmt.Println("\nYour password: ", alphanumeric(length))
+		pw, err = alphanumeric(length)
 	default:
 		log.Fatalf(ERR_INFO, errUnknownArg)
-	}	
+	}
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("\nYour password: ", pw)
 }

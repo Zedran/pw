@@ -49,9 +49,13 @@ func TestAlphanumeric(t *testing.T) {
 	var bigString string
 
 	for i := 0; i < 10; i++ {
-		bigString += alphanumeric(MAX_PW_LENGTH)
+		chunk, err := alphanumeric(MAX_PW_LENGTH)
+		if err != nil {
+			t.Fatal(err)
+		}
+		bigString += chunk
 	}
-
+	
 	if !strings.Contains(bigString, string(MIN_ALPHANUM_CODE)) {
 		t.Log("Check ASCII range. First code not found")
 	}
@@ -68,7 +72,11 @@ func TestNumeric(t *testing.T) {
 	var bigString string
 
 	for i := 0; i < 10; i++ {
-		bigString += numeric(MAX_PW_LENGTH)
+		chunk, err := numeric(MAX_PW_LENGTH)
+		if err != nil {
+			t.Fatal(err)
+		}
+		bigString += chunk
 	}
 
 	if !strings.Contains(bigString, string(ASCII_ZERO)) {
