@@ -1,7 +1,7 @@
 @ECHO OFF
 
 SET flags=-trimpath -ldflags "-s -w"
-SET output_name="pw.exe"
+SET output_name="build/pw.exe"
 SET src_dir=./src
 
 go test %src_dir% -test.v
