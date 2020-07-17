@@ -56,7 +56,7 @@ func randomStream(min, max, length int) ([]byte, error) {
 func getLength(lengthArg string) (int, error) {
 	length, err := strconv.Atoi(lengthArg)
 	
-	if length <= 0 || length > MAX_PW_LENGTH || err != nil {
+	if err != nil || length <= 0 || length > MAX_PW_LENGTH {
 		return 0, errInvalidLengthArg
 	}
 
