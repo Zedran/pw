@@ -1,10 +1,10 @@
 package main
 
 import (
+	"crypto/rand"
 	"errors"
 	"fmt"
 	"log"
-	"crypto/rand"
 	"os"
 	"strconv"
 	"strings"
@@ -67,12 +67,12 @@ func main() {
 	log.SetFlags(0)
 
 	if len(os.Args) != EXPECTED_ARGC {
-		log.Fatalf(ERR_INFO, errInvalidArgCount.Error())
+		log.Fatalf(ERR_INFO, errInvalidArgCount)
 	}
 
 	length, err := getLength(os.Args[2])
 	if err != nil {
-		log.Fatalf(ERR_INFO, err.Error())
+		log.Fatalf(ERR_INFO, err)
 	}
 
 	var pw []byte
@@ -87,7 +87,8 @@ func main() {
 	}
 
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf(ERR_INFO, err)
 	}
+
 	fmt.Println("\nYour password: ", string(pw))
 }
