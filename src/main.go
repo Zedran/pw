@@ -2,17 +2,13 @@ package main
 
 import (
 	"crypto/rand"
-	"errors"
+	"flag"
 	"fmt"
 	"log"
 	"os"
-	"strconv"
-	"strings"
 )
 
 const (
-	EXPECTED_ARGC     = 3
-
 	// Alphanumeric bounds
 	MIN_ALPHANUM_CODE = 33      // From '!'
 	MAX_ALPHANUM_CODE = 125    // Up to '}'
@@ -24,16 +20,15 @@ const (
 	// Maximum permitted password length
 	MAX_PW_LENGTH     = 4096
 
-	// When the error occurs, this string is printed together with error information
-	ERR_INFO          = "\n%s\n\nAvailable modes: 'a' (alphanumeric password), 'n' (numeric password).\nIssue command with 'pw <mode> <length>'."
+	// A secret random number for the program to tell if the user has provided password length
+	LEN_NOT_SPECIFIED = -330879
 )
 
-var (
-	errUnknownArg         = errors.New("unknown argument encountered")
-	errInvalidArgCount    = errors.New("too few or too many arguments passed on startup")
-
-	errInvalidLengthArg   = errors.New("length must be an integer in range (0; 4096>")
-)
+func displayErrorMessage(message string) {
+	fmt.Println(message)
+	flag.PrintDefaults()
+	os.Exit(1)
+}
 
 /* Generates random stream of bytes and transforms them to fit within the specified range. */
 func randomStream(min, max, length int) ([]byte, error) {
@@ -50,44 +45,41 @@ func randomStream(min, max, length int) ([]byte, error) {
 	return pw, nil
 }
 
-/* Gets password length from the string argument passed and ensures it is a non-negative integer lesser
- * than predefined max length.
- */
-func getLength(lengthArg string) (int, error) {
-	length, err := strconv.Atoi(lengthArg)
-	
-	if err != nil || length <= 0 || length > MAX_PW_LENGTH {
-		return 0, errInvalidLengthArg
-	}
-
-	return length, nil
+/* Returns true if length argument is within set bounds. */
+func ValidateLength(length int) bool {
+	return length > 0 && length <= MAX_PW_LENGTH
 }
 
 func main() {
 	log.SetFlags(0)
 
-	if len(os.Args) != EXPECTED_ARGC {
-		log.Fatalf(ERR_INFO, errInvalidArgCount)
+	mode  := flag.String("m", "a", "mode:\n    a - alphanumeric\n    n - numeric")
+	pwLen := flag.Int("l", LEN_NOT_SPECIFIED, fmt.Sprintf("password length, max %d characters", MAX_PW_LENGTH))
+
+	flag.Parse()
+
+	if *pwLen == LEN_NOT_SPECIFIED {
+		displayErrorMessage("password length not provided")
+	} else if ValidateLength(*pwLen) == false {
+		displayErrorMessage(fmt.Sprintf("length must be an integer in range (0; %d>\n", MAX_PW_LENGTH))
 	}
 
-	length, err := getLength(os.Args[2])
-	if err != nil {
-		log.Fatalf(ERR_INFO, err)
-	}
+	var (
+		pw  []byte
+		err error
+	)
 
-	var pw []byte
-
-	switch strings.ToUpper(os.Args[1]) {
-	case "N":     // numeric
-		pw, err = randomStream(ASCII_ZERO, ASCII_NINE, length)
-	case "A":     // alphanumeric
-		pw, err = randomStream(MIN_ALPHANUM_CODE, MAX_ALPHANUM_CODE, length)
+	switch *mode {
+	case "a":  // alphanumeric
+		pw, err = randomStream(MIN_ALPHANUM_CODE, MAX_ALPHANUM_CODE, *pwLen)
+	case "n":  // numeric
+		pw, err = randomStream(ASCII_ZERO, ASCII_NINE, *pwLen)
 	default:
-		log.Fatalf(ERR_INFO, errUnknownArg)
+		displayErrorMessage("invalid mode argument\n")
 	}
 
 	if err != nil {
-		log.Fatalf(ERR_INFO, err)
+		log.Fatal(err)
 	}
 
 	fmt.Println("\nYour password: ", string(pw))
