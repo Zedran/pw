@@ -82,5 +82,5 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("\nYour password: ", string(pw))
+	fmt.Println(string(pw))
 }
