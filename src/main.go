@@ -20,7 +20,7 @@ const (
 	// Maximum permitted password length
 	MAX_PW_LENGTH     = 4096
 
-	// A secret random number for the program to tell if the user has provided password length
+	// Default password length
 	DEFAULT_LENGTH    = 6
 )
 
@@ -31,18 +31,15 @@ func displayErrorMessage(message string) {
 }
 
 /* Generates random stream of bytes and transforms them to fit within the specified range. */
-func randomStream(min, max, length int) ([]byte, error) {
-	pw := make([]byte, length)
+func randomStream(min, max, length int) (stream []byte, err error) {
+	stream = make([]byte, length)
+	_, err = rand.Read(stream)
 
-	if _, err := rand.Read(pw); err != nil {
-		return nil, err
+	for i := range stream {
+		stream[i] = byte(min) + stream[i] % byte(max + 1 - min)
 	}
 
-	for i := range pw {
-		pw[i] = byte(min) + pw[i] % byte(max + 1 - min)
-	}
-
-	return pw, nil
+	return stream, nil
 }
 
 /* Returns true if length argument is within set bounds. */
