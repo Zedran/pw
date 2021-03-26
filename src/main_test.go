@@ -51,11 +51,11 @@ func TestAlphanumeric(t *testing.T) {
 
 	strSample := string(sample)
 	
-	if !strings.Contains(strSample, string(MIN_ALPHANUM_CODE)) {
+	if !strings.Contains(strSample, string(byte(MIN_ALPHANUM_CODE))) {
 		t.Log("Check ASCII range - first code not found")
 	}
 
-	if !strings.Contains(strSample, string(MAX_ALPHANUM_CODE)) {
+	if !strings.Contains(strSample, string(byte(MAX_ALPHANUM_CODE))) {
 		t.Log("Check ASCII range - last code not found")
 	}
 }
@@ -76,11 +76,11 @@ func TestNumeric(t *testing.T) {
 
 	strSample := string(sample)
 
-	if !strings.Contains(strSample, string(ASCII_ZERO)) {
+	if !strings.Contains(strSample, string(byte(ASCII_ZERO))) {
 		t.Log("Check numeric range. First code not found")
 	}
 
-	if !strings.Contains(strSample, string(ASCII_NINE)) {
+	if !strings.Contains(strSample, string(byte(ASCII_NINE))) {
 		t.Log("Check numeric range. Last code not found")
 	}
 }
