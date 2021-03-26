@@ -21,7 +21,7 @@ const (
 	MAX_PW_LENGTH     = 4096
 
 	// A secret random number for the program to tell if the user has provided password length
-	LEN_NOT_SPECIFIED = -330879
+	DEFAULT_LENGTH    = 6
 )
 
 func displayErrorMessage(message string) {
@@ -54,13 +54,11 @@ func main() {
 	log.SetFlags(0)
 
 	mode  := flag.String("m", "a", "mode:\n    a - alphanumeric\n    n - numeric")
-	pwLen := flag.Int("l", LEN_NOT_SPECIFIED, fmt.Sprintf("password length, max %d characters", MAX_PW_LENGTH))
+	pwLen := flag.Int("l", DEFAULT_LENGTH, fmt.Sprintf("password length, max %d characters", MAX_PW_LENGTH))
 
 	flag.Parse()
 
-	if *pwLen == LEN_NOT_SPECIFIED {
-		displayErrorMessage("password length not provided")
-	} else if ValidateLength(*pwLen) == false {
+	if ValidateLength(*pwLen) == false {
 		displayErrorMessage(fmt.Sprintf("length must be an integer in range (0; %d>\n", MAX_PW_LENGTH))
 	}
 
