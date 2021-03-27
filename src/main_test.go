@@ -42,11 +42,7 @@ func TestAlphanumeric(t *testing.T) {
 	var sample []byte
 
 	for i := 0; i < 10; i++ {
-		chunk, err := randomStream(MIN_ALPHANUM_CODE, MAX_ALPHANUM_CODE, MAX_PW_LENGTH)
-		if err != nil {
-			t.Fatal(err)
-		}
-		sample = append(sample, chunk...)
+		sample = append(sample, randomStream(MIN_ALPHANUM_CODE, MAX_ALPHANUM_CODE, MAX_PW_LENGTH)...)
 	}
 
 	strSample := string(sample)
@@ -67,11 +63,7 @@ func TestNumeric(t *testing.T) {
 	var sample []byte
 
 	for i := 0; i < 10; i++ {
-		chunk, err := randomStream(ASCII_ZERO, ASCII_NINE, MAX_PW_LENGTH)
-		if err != nil {
-			t.Fatal(err)
-		}
-		sample = append(sample, chunk...)
+		sample = append(sample, randomStream(ASCII_ZERO, ASCII_NINE, MAX_PW_LENGTH)...)
 	}
 
 	strSample := string(sample)

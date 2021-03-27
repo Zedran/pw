@@ -31,15 +31,18 @@ func displayErrorMessage(message string) {
 }
 
 /* Generates random stream of bytes and transforms them to fit within the specified range. */
-func randomStream(min, max, length int) ([]byte, error) {
+func randomStream(min, max, length int) []byte {
 	stream := make([]byte, length)
-	_, err := rand.Read(stream)
+	
+	if _, err := rand.Read(stream); err != nil {
+		log.Fatal(err)
+	}
 
 	for i := range stream {
 		stream[i] = byte(min) + stream[i] % byte(max + 1 - min)
 	}
 
-	return stream, err
+	return stream
 }
 
 /* Returns true if length argument is within set bounds. */
@@ -59,22 +62,15 @@ func main() {
 		displayErrorMessage(fmt.Sprintf("length must be an integer in range (0; %d>\n", MAX_PW_LENGTH))
 	}
 
-	var (
-		pw  []byte
-		err error
-	)
+	var pw []byte
 
 	switch *mode {
 	case "a":  // alphanumeric
-		pw, err = randomStream(MIN_ALPHANUM_CODE, MAX_ALPHANUM_CODE, *pwLen)
+		pw = randomStream(MIN_ALPHANUM_CODE, MAX_ALPHANUM_CODE, *pwLen)
 	case "n":  // numeric
-		pw, err = randomStream(ASCII_ZERO, ASCII_NINE, *pwLen)
+		pw = randomStream(ASCII_ZERO, ASCII_NINE, *pwLen)
 	default:
 		displayErrorMessage("invalid mode argument\n")
-	}
-
-	if err != nil {
-		log.Fatal(err)
 	}
 
 	fmt.Println(string(pw))
