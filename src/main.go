@@ -31,15 +31,15 @@ func displayErrorMessage(message string) {
 }
 
 /* Generates random stream of bytes and transforms them to fit within the specified range. */
-func randomStream(min, max, length int) (stream []byte, err error) {
-	stream = make([]byte, length)
-	_, err = rand.Read(stream)
+func randomStream(min, max, length int) ([]byte, error) {
+	stream := make([]byte, length)
+	_, err := rand.Read(stream)
 
 	for i := range stream {
 		stream[i] = byte(min) + stream[i] % byte(max + 1 - min)
 	}
 
-	return stream, nil
+	return stream, err
 }
 
 /* Returns true if length argument is within set bounds. */
