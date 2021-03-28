@@ -1,3 +1,3 @@
-module src/main.go
+module github.com/Zedran/pw
 
 go 1.16
