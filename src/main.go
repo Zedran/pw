@@ -31,7 +31,7 @@ func displayErrorMessage(message string) {
 }
 
 /* Generates random stream of bytes and transforms them to fit within the specified range. */
-func randomStream(min, max, length int) []byte {
+func randomStream(min, max, length int) string {
 	stream := make([]byte, length)
 	
 	if _, err := rand.Read(stream); err != nil {
@@ -42,7 +42,7 @@ func randomStream(min, max, length int) []byte {
 		stream[i] = byte(min) + stream[i] % byte(max + 1 - min)
 	}
 
-	return stream
+	return string(stream)
 }
 
 /* Returns true if length argument is within set bounds. */
@@ -53,8 +53,9 @@ func ValidateLength(length int) bool {
 func main() {
 	log.SetFlags(0)
 
-	mode  := flag.String("m", "a", "mode:\n    a - alphanumeric\n    n - numeric")
-	pwLen := flag.Int("l", DEFAULT_LENGTH, fmt.Sprintf("password length, max %d characters", MAX_PW_LENGTH))
+	mode     := flag.String("m", "a", "mode:\n    a - alphanumeric\n    d - diceware\n    n - numeric")
+	pwLen    := flag.Int("l", DEFAULT_LENGTH, fmt.Sprintf("password length, max %d characters", MAX_PW_LENGTH))
+	wordList := flag.String("f", DEFAULT_WL, "file with word list for diceware mode")
 
 	flag.Parse()
 
@@ -62,16 +63,14 @@ func main() {
 		displayErrorMessage(fmt.Sprintf("length must be an integer in range (0; %d>\n", MAX_PW_LENGTH))
 	}
 
-	var pw []byte
-
 	switch *mode {
 	case "a":  // alphanumeric
-		pw = randomStream(MIN_ALPHANUM_CODE, MAX_ALPHANUM_CODE, *pwLen)
+		fmt.Println(randomStream(MIN_ALPHANUM_CODE, MAX_ALPHANUM_CODE, *pwLen))
+	case "d":  // diceware
+		fmt.Println(GeneratePhrases(*pwLen, *wordList))
 	case "n":  // numeric
-		pw = randomStream(ASCII_ZERO, ASCII_NINE, *pwLen)
+		fmt.Println(randomStream(ASCII_ZERO, ASCII_NINE, *pwLen))
 	default:
 		displayErrorMessage("invalid mode argument\n")
 	}
-
-	fmt.Println(string(pw))
 }
