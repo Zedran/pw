@@ -5,11 +5,16 @@ import (
 	"log"
 	"math/big"
 	"os"
+	"os/exec"
 	"path"
+	"path/filepath"
 	"strings"
 )
 
 const (
+	// Standard path separator
+	PATH_SEP   string = "\\"
+
 	// Word separator inside the word list file
 	WL_SEP     string = "\n"
 
@@ -62,11 +67,31 @@ func GetRandomNumbers(count int, wordPool int) []int64 {
 	return nums
 }
 
-/* Loads a list of words from a word list file. */
-func LoadWordList(name string) []string {
-	stream, err := os.ReadFile(path.Join(WL_DIR, name + WL_EXT))
+/* Ensures the path to resource directory is correct when running from PATH (different WD). 
+ * Called when loading the word list file from relative path fails.
+ */
+func GetResPath(wordListName string) string {
+	exePath, err := exec.LookPath(filepath.Base(os.Args[0]))
 	if err != nil {
 		log.Fatal(err)
+	}
+	
+	rootDir := strings.Split(exePath, PATH_SEP)
+
+	return path.Join(path.Join(rootDir[:len(rootDir) - 1]...), WL_DIR, wordListName + WL_EXT)
+}
+
+/* Loads a list of words from a word list file. */
+func LoadWordList(wordListName string) []string {
+	var (
+		stream []byte
+		err    error
+	)
+
+	if stream, err = os.ReadFile(path.Join(WL_DIR, wordListName + WL_EXT)); err != nil {
+		if stream, err = os.ReadFile(GetResPath(wordListName)); err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	var wordList []string
