@@ -59,6 +59,7 @@ pw -m d -f eff    ->    maimed humid bony awaken tracing
 
 * [CSPRNG](https://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_generator)
 * [Diceware](https://en.wikipedia.org/wiki/Diceware)
+* [Deep Dive: EFF's New Wordlists for Random Passphrases](https://www.eff.org/deeplinks/2016/07/new-wordlists-random-passphrases)
 
 <br>
 
