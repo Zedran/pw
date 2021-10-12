@@ -5,7 +5,10 @@ SET test_flags=-test.v
 
 SET src_dir=.\src
 SET app_fname=build\pw.exe
-SET test_fname=build\test.exe
+SET test_fname=test.exe
+
+SET res_origin="res"
+SET res_destin="build/res"
 
 go test -c -o %test_fname% %src_dir%
 %test_fname% %test_flags%
@@ -13,7 +16,6 @@ go test -c -o %test_fname% %src_dir%
 IF %ERRORLEVEL% EQU 0 (
     go build %comp_flags% -o %app_fname% %src_dir%
 
-    IF "%~1"=="clean" (
-        del %test_fname%
-    )
+    xcopy /e /i /s /y %res_origin% %res_destin%
+    del %test_fname%
 )
