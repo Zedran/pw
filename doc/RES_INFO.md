@@ -9,3 +9,5 @@
     Electronic Frontier Foundation 2016
 
 [Link to resource](https://www.eff.org/deeplinks/2016/07/new-wordlists-random-passphrases)
+
+[EFF's Copyright Policy](https://www.eff.org/pl/copyright)
