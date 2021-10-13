@@ -44,7 +44,7 @@ func GeneratePhrases(count int, wordListName string) string {
 	for i := range numbers {
 		phrases[i] = wordList[numbers[i]]
 	}
-	
+
 	return strings.Join(phrases, OUTPUT_SEP)
 }
 
@@ -76,9 +76,8 @@ func GetResPath(wordListName string) string {
 		log.Fatal(err)
 	}
 	
-	rootDir := strings.Split(exePath, PATH_SEP)
-
-	return path.Join(path.Join(rootDir[:len(rootDir) - 1]...), WL_DIR, wordListName + WL_EXT)
+	rootDir, _ := filepath.Split(exePath)
+	return filepath.FromSlash(path.Join(rootDir[:len(rootDir) - 1], WL_DIR, wordListName + WL_EXT))
 }
 
 /* Loads a list of words from a word list file. */
