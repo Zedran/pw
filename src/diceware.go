@@ -12,9 +12,6 @@ import (
 )
 
 const (
-	// Standard path separator
-	PATH_SEP   string = "\\"
-
 	// Word separator inside the word list file
 	WL_SEP     string = "\n"
 
