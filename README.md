@@ -8,6 +8,12 @@ This is a very basic password generator written in Go. It is intended to be inte
 
 <br>
 
+## Installation
+
+You can download and unpack the zipped release into the directory of your choice. I would, however, encourage you to clone this repo and compile the code yourself. I have provided build scripts for Windows and Linux. 
+
+Once you have your program directory set up, the next step is to add it to PATH. This will allow you to get a password by calling `pw` in the command line.
+
 ## Usage
 <br>
 
