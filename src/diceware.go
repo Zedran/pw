@@ -12,6 +12,9 @@ import (
 )
 
 const (
+	// Caret return character
+	CR         string = "\r"
+
 	// Word separator inside the word list file
 	WL_SEP     string = "\n"
 
@@ -91,7 +94,7 @@ func LoadWordList(wordListName string) []string {
 	}
 
 	var wordList []string
-	for _, word := range strings.Split(string(stream), WL_SEP) {
+	for _, word := range strings.Split(strings.Replace(string(stream), CR, "", -1), WL_SEP) {
 		if len(strings.TrimSpace(word)) != 0 {
 			wordList = append(wordList, word)
 		}
