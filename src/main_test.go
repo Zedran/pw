@@ -10,9 +10,9 @@ import (
  */
 func TestValidateLength(t *testing.T) {
 	errorCases := []int{
-		0,     // zero
-		-11,   // negative
-		4097,  // out of predefined bounds by 1
+		0,    // zero
+		-11,  // negative
+		4097, // out of predefined bounds by 1
 	}
 
 	for _, testCase := range errorCases {
@@ -20,11 +20,11 @@ func TestValidateLength(t *testing.T) {
 			t.Errorf("Failed for the incorrect case '%d'\n", testCase)
 		}
 	}
-	
+
 	correctCases := []int{
-		1,              // minimum
-		15,             // some reasonable length
-		MAX_PW_LENGTH,  // maximum
+		1,             // minimum
+		15,            // some reasonable length
+		MAX_PW_LENGTH, // maximum
 	}
 
 	for _, testCase := range correctCases {
@@ -46,7 +46,7 @@ func TestAlphanumeric(t *testing.T) {
 	}
 
 	strSample := string(sample)
-	
+
 	if !strings.Contains(strSample, string(byte(MIN_ALPHANUM_CODE))) {
 		t.Log("Check ASCII range - first code not found")
 	}
@@ -56,7 +56,7 @@ func TestAlphanumeric(t *testing.T) {
 	}
 }
 
-/* Tests the numeric generation, taking sample of generated numbers and searching for 0 and 9. 
+/* Tests the numeric generation, taking sample of generated numbers and searching for 0 and 9.
  * If they are not found, a warning is displayed. This test does not trigger a fail due to its random input.
  */
 func TestNumeric(t *testing.T) {

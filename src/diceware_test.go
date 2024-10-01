@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-/* Tests Generate Phrases function for the correct number of words generated. 
+/* Tests Generate Phrases function for the correct number of words generated.
  * Incorrect words count fails the test.
  */
 func TestGeneratePhrases(t *testing.T) {
@@ -21,21 +21,21 @@ func TestGeneratePhrases(t *testing.T) {
 	}
 }
 
-/* Tests GetRandomNumbers function. Takes a sample of 300000 random numbers and checks whether a correct range 
+/* Tests GetRandomNumbers function. Takes a sample of 300000 random numbers and checks whether a correct range
  * of numbers is represented. The test displays warnings if the extreme values are not present
  * or if the number falls outside the range <0, wordPool). Due to the nature of the random output, not meeting
  * a criteria does not fail the test.
  */
 func TestGetRandomNumbers(t *testing.T) {
 	var (
-		wordPool   int64 = 7776    // the length of a list for 5 dices
+		wordPool   int64 = 7776 // the length of a list for 5 dices
 		sampleSize       = 300000
 
-		sample           = GetRandomNumbers(sampleSize, int(wordPool))
-		
-		zeroPresent      = false
-		maxPresent       = false
-		correctRange     = true
+		sample = GetRandomNumbers(sampleSize, int(wordPool))
+
+		zeroPresent  = false
+		maxPresent   = false
+		correctRange = true
 	)
 
 	for i := range sample {
@@ -50,18 +50,18 @@ func TestGetRandomNumbers(t *testing.T) {
 			}
 		}
 	}
-	
+
 	if !(zeroPresent && maxPresent && correctRange) {
 		t.Logf(
-			"Range criteria not met for random sample: Min: %t, Max: %t, Over or under: %t", 
-			zeroPresent, 
-			maxPresent, 
+			"Range criteria not met for random sample: Min: %t, Max: %t, Over or under: %t",
+			zeroPresent,
+			maxPresent,
 			correctRange,
 		)
 	}
 }
 
-/* Tests LoadWordList function. Inquires whether the loaded slice has any empty lines or are there 
+/* Tests LoadWordList function. Inquires whether the loaded slice has any empty lines or are there
  * new lines at the end of any of the elements. Incorrect word list format fails the test.
  */
 func TestLoadWordList(t *testing.T) {
@@ -81,8 +81,8 @@ func TestLoadWordList(t *testing.T) {
 
 	if emptyLinePresent || newLinesPresent {
 		t.Errorf(
-			"Word list did not load correctly. Empty lines present: %t, Trailing new lines: %t", 
-			emptyLinePresent, 
+			"Word list did not load correctly. Empty lines present: %t, Trailing new lines: %t",
+			emptyLinePresent,
 			newLinesPresent,
 		)
 	}

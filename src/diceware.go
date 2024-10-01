@@ -13,25 +13,25 @@ import (
 
 const (
 	// Caret return character
-	CR         string = "\r"
+	CR string = "\r"
 
 	// Word separator inside the word list file
-	WL_SEP     string = "\n"
+	WL_SEP string = "\n"
 
 	// Word separator in the output string
 	OUTPUT_SEP string = " "
 
 	// Directory containing word list files
-	WL_DIR     string = "res"
+	WL_DIR string = "res"
 
 	// Extension of word list files
-	WL_EXT     string = ".txt"
+	WL_EXT string = ".txt"
 
 	// File name of the default word list
 	DEFAULT_WL string = "eff"
 )
 
-/* Generates a string containing random space-separated words for the user to join together in a password. 
+/* Generates a string containing random space-separated words for the user to join together in a password.
  * Takes 2 arguments: a count of words and the name of the file containing a word list.
  */
 func GeneratePhrases(count int, wordListName string) string {
@@ -67,7 +67,7 @@ func GetRandomNumbers(count int, wordPool int) []int64 {
 	return nums
 }
 
-/* Ensures the path to resource directory is correct when running from PATH (different WD). 
+/* Ensures the path to resource directory is correct when running from PATH (different WD).
  * Called when loading the word list file from relative path fails.
  */
 func GetResPath(wordListName string) string {
@@ -75,9 +75,9 @@ func GetResPath(wordListName string) string {
 	if err != nil {
 		log.Fatal(err)
 	}
-	
+
 	rootDir, _ := filepath.Split(exePath)
-	return filepath.FromSlash(path.Join(rootDir[:len(rootDir) - 1], WL_DIR, wordListName + WL_EXT))
+	return filepath.FromSlash(path.Join(rootDir[:len(rootDir)-1], WL_DIR, wordListName+WL_EXT))
 }
 
 /* Loads a list of words from a word list file. */
@@ -87,7 +87,7 @@ func LoadWordList(wordListName string) []string {
 		err    error
 	)
 
-	if stream, err = os.ReadFile(path.Join(WL_DIR, wordListName + WL_EXT)); err != nil {
+	if stream, err = os.ReadFile(path.Join(WL_DIR, wordListName+WL_EXT)); err != nil {
 		if stream, err = os.ReadFile(GetResPath(wordListName)); err != nil {
 			log.Fatal(err)
 		}

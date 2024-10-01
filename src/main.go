@@ -10,18 +10,18 @@ import (
 
 const (
 	// Alphanumeric bounds
-	MIN_ALPHANUM_CODE = 33      // From '!'
-	MAX_ALPHANUM_CODE = 125    // Up to '}'
+	MIN_ALPHANUM_CODE = 33  // From '!'
+	MAX_ALPHANUM_CODE = 125 // Up to '}'
 
 	// Numeric bounds
-	ASCII_ZERO        = 48
-	ASCII_NINE        = ASCII_ZERO + 9
+	ASCII_ZERO = 48
+	ASCII_NINE = ASCII_ZERO + 9
 
 	// Maximum permitted password length
-	MAX_PW_LENGTH     = 4096
+	MAX_PW_LENGTH = 4096
 
 	// Default password length
-	DEFAULT_LENGTH    = 6
+	DEFAULT_LENGTH = 6
 )
 
 func displayErrorMessage(message string) {
@@ -33,13 +33,13 @@ func displayErrorMessage(message string) {
 /* Generates random stream of bytes and transforms them to fit within the specified range. */
 func randomStream(min, max, length int) string {
 	stream := make([]byte, length)
-	
+
 	if _, err := rand.Read(stream); err != nil {
 		log.Fatal(err)
 	}
 
 	for i := range stream {
-		stream[i] = byte(min) + stream[i] % byte(max + 1 - min)
+		stream[i] = byte(min) + stream[i]%byte(max+1-min)
 	}
 
 	return string(stream)
@@ -53,8 +53,8 @@ func ValidateLength(length int) bool {
 func main() {
 	log.SetFlags(0)
 
-	mode     := flag.String("m", "a", "mode:\n    a - alphanumeric\n    d - diceware\n    n - numeric")
-	pwLen    := flag.Int("l", DEFAULT_LENGTH, fmt.Sprintf("password length, max %d characters", MAX_PW_LENGTH))
+	mode := flag.String("m", "a", "mode:\n    a - alphanumeric\n    d - diceware\n    n - numeric")
+	pwLen := flag.Int("l", DEFAULT_LENGTH, fmt.Sprintf("password length, max %d characters", MAX_PW_LENGTH))
 	wordList := flag.String("f", DEFAULT_WL, "file with word list for diceware mode")
 
 	flag.Parse()
@@ -64,11 +64,11 @@ func main() {
 	}
 
 	switch *mode {
-	case "a":  // alphanumeric
+	case "a": // alphanumeric
 		fmt.Println(randomStream(MIN_ALPHANUM_CODE, MAX_ALPHANUM_CODE, *pwLen))
-	case "d":  // diceware
+	case "d": // diceware
 		fmt.Println(GeneratePhrases(*pwLen, *wordList))
-	case "n":  // numeric
+	case "n": // numeric
 		fmt.Println(randomStream(ASCII_ZERO, ASCII_NINE, *pwLen))
 	default:
 		displayErrorMessage("invalid mode argument\n")
