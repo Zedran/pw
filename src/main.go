@@ -5,7 +5,6 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"os"
 )
 
 const (
@@ -23,12 +22,6 @@ const (
 	// Default password length
 	DEFAULT_LENGTH = 6
 )
-
-func displayErrorMessage(message string) {
-	fmt.Println(message)
-	flag.PrintDefaults()
-	os.Exit(1)
-}
 
 /* Generates random stream of bytes and transforms them to fit within the specified range. */
 func randomStream(min, max, length int) string {
@@ -60,7 +53,7 @@ func main() {
 	flag.Parse()
 
 	if !ValidateLength(*pwLen) {
-		displayErrorMessage(fmt.Sprintf("length must be an integer in range (0; %d>\n", MAX_PW_LENGTH))
+		log.Fatalf("length must be an integer in range (0; %d>\n", MAX_PW_LENGTH)
 	}
 
 	switch *mode {
@@ -71,6 +64,6 @@ func main() {
 	case "n": // numeric
 		fmt.Println(randomStream(ASCII_ZERO, ASCII_NINE, *pwLen))
 	default:
-		displayErrorMessage("invalid mode argument\n")
+		log.Fatal("invalid mode argument\n")
 	}
 }
