@@ -22,14 +22,16 @@ func main() {
 		log.Fatalf("length must be an integer in range (0; %d>\n", MAX_PW_LENGTH)
 	}
 
+	var p string
 	switch *mode {
 	case "a":
-		fmt.Println(Alphanumeric(*pwLen))
+		p = Alphanumeric(*pwLen)
 	case "d":
-		fmt.Println(GeneratePhrases(*pwLen, *wordList, *sep))
+		p = GeneratePhrases(*pwLen, *wordList, *sep)
 	case "n":
-		fmt.Println(Numeric(*pwLen))
+		p = Numeric(*pwLen)
 	default:
 		log.Fatal("invalid mode argument\n")
 	}
+	fmt.Println(p)
 }
