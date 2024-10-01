@@ -31,9 +31,9 @@ const (
 	DEFAULT_WL string = "eff"
 )
 
-/* Generates a string containing random space-separated words for the user to join together in a password.
- * Takes 2 arguments: a count of words and the name of the file containing a word list.
- */
+// Generates a string containing random space-separated words for the user to
+// join together in a password. Takes 2 arguments: a count of words
+// and the name of the file containing a word list.
 func GeneratePhrases(count int, wordListName string) string {
 	var (
 		wordList = LoadWordList(wordListName)
@@ -48,7 +48,7 @@ func GeneratePhrases(count int, wordListName string) string {
 	return strings.Join(phrases, OUTPUT_SEP)
 }
 
-/* Returns a slice of random integers range <0, wordPool). */
+// Returns a slice of random integers range <0, wordPool).
 func GetRandomNumbers(count int, wordPool int) []int64 {
 	var (
 		max  = big.NewInt(int64(wordPool))
@@ -67,9 +67,9 @@ func GetRandomNumbers(count int, wordPool int) []int64 {
 	return nums
 }
 
-/* Ensures the path to resource directory is correct when running from PATH (different WD).
- * Called when loading the word list file from relative path fails.
- */
+// Ensures the path to resource directory is correct when running from PATH
+// (different WD). Called when loading the word list file from relative path
+// fails.
 func GetResPath(wordListName string) string {
 	exePath, err := exec.LookPath(filepath.Base(os.Args[0]))
 	if err != nil {
@@ -80,7 +80,7 @@ func GetResPath(wordListName string) string {
 	return filepath.FromSlash(path.Join(rootDir[:len(rootDir)-1], WL_DIR, wordListName+WL_EXT))
 }
 
-/* Loads a list of words from a word list file. */
+// Loads a list of words from a word list file.
 func LoadWordList(wordListName string) []string {
 	var (
 		stream []byte

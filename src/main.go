@@ -23,7 +23,8 @@ const (
 	DEFAULT_LENGTH = 6
 )
 
-/* Generates random stream of bytes and transforms them to fit within the specified range. */
+// Generates random stream of bytes and transforms them to fit
+// within the specified range.
 func randomStream(min, max, length int) string {
 	stream := make([]byte, length)
 
@@ -38,7 +39,7 @@ func randomStream(min, max, length int) string {
 	return string(stream)
 }
 
-/* Returns true if length argument is within set bounds. */
+// Returns true if length argument is within set bounds.
 func ValidateLength(length int) bool {
 	return length > 0 && length <= MAX_PW_LENGTH
 }
@@ -57,11 +58,11 @@ func main() {
 	}
 
 	switch *mode {
-	case "a": // alphanumeric
+	case "a": // Alphanumeric
 		fmt.Println(randomStream(MIN_ALPHANUM_CODE, MAX_ALPHANUM_CODE, *pwLen))
-	case "d": // diceware
+	case "d": // Diceware
 		fmt.Println(GeneratePhrases(*pwLen, *wordList))
-	case "n": // numeric
+	case "n": // Numeric
 		fmt.Println(randomStream(ASCII_ZERO, ASCII_NINE, *pwLen))
 	default:
 		log.Fatal("invalid mode argument\n")

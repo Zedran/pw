@@ -5,9 +5,8 @@ import (
 	"testing"
 )
 
-/* Tests Generate Phrases function for the correct number of words generated.
- * Incorrect words count fails the test.
- */
+// Tests Generate Phrases function for the correct number of words generated.
+// Incorrect words count fails the test.
 func TestGeneratePhrases(t *testing.T) {
 	cases := []int{1, 4, 75, MAX_PW_LENGTH}
 
@@ -21,14 +20,14 @@ func TestGeneratePhrases(t *testing.T) {
 	}
 }
 
-/* Tests GetRandomNumbers function. Takes a sample of 300000 random numbers and checks whether a correct range
- * of numbers is represented. The test displays warnings if the extreme values are not present
- * or if the number falls outside the range <0, wordPool). Due to the nature of the random output, not meeting
- * a criteria does not fail the test.
- */
+// Tests GetRandomNumbers function. Takes a sample of 300000 random numbers
+// and checks whether a correct range of numbers is represented. The test
+// displays warnings if the extreme values are not present or if the number
+// falls outside the range <0, wordPool). Due to the nature of the random
+// output, not meeting a criteria does not fail the test.
 func TestGetRandomNumbers(t *testing.T) {
 	var (
-		wordPool   int64 = 7776 // the length of a list for 5 dices
+		wordPool   int64 = 7776 // The length of a list for 5 dices
 		sampleSize       = 300000
 
 		sample = GetRandomNumbers(sampleSize, int(wordPool))
@@ -61,9 +60,9 @@ func TestGetRandomNumbers(t *testing.T) {
 	}
 }
 
-/* Tests LoadWordList function. Inquires whether the loaded slice has any empty lines or are there
- * new lines at the end of any of the elements. Incorrect word list format fails the test.
- */
+// Tests LoadWordList function. Inquires whether the loaded slice has any empty
+// lines or are there new lines at the end of any of the elements. Incorrect
+// word list format fails the test.
 func TestLoadWordList(t *testing.T) {
 	var (
 		wordList         = LoadWordList(DEFAULT_WL)

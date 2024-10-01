@@ -5,14 +5,14 @@ import (
 	"testing"
 )
 
-/* Tests ValidateLength function asserting it properly checks the length argument both for incorrect and
- * correct cases. Erratic input checking fails the test.
- */
+// Tests ValidateLength function asserting it properly checks the length
+// argument both for incorrect and correct cases. Erratic input checking
+// fails the test.
 func TestValidateLength(t *testing.T) {
 	errorCases := []int{
-		0,    // zero
-		-11,  // negative
-		4097, // out of predefined bounds by 1
+		0,    // Zero
+		-11,  // Negative
+		4097, // Out of predefined bounds by 1
 	}
 
 	for _, testCase := range errorCases {
@@ -22,9 +22,9 @@ func TestValidateLength(t *testing.T) {
 	}
 
 	correctCases := []int{
-		1,             // minimum
-		15,            // some reasonable length
-		MAX_PW_LENGTH, // maximum
+		1,             // Minimum
+		15,            // Some reasonable length
+		MAX_PW_LENGTH, // Maximum
 	}
 
 	for _, testCase := range correctCases {
@@ -34,10 +34,10 @@ func TestValidateLength(t *testing.T) {
 	}
 }
 
-/* Tests the alphanumeric generation, taking sample of generated chars and searching for those
- * on the extreme points of range. If they are not found, a warning is displayed. This test does not
- * trigger a fail due to its random input.
- */
+// Tests the alphanumeric generation, taking sample of generated chars
+// and searching for those on the extreme points of range. If they are
+// not found, a warning is displayed. This test does not trigger a fail
+// due to its random input.
 func TestAlphanumeric(t *testing.T) {
 	var sample []byte
 
@@ -56,9 +56,9 @@ func TestAlphanumeric(t *testing.T) {
 	}
 }
 
-/* Tests the numeric generation, taking sample of generated numbers and searching for 0 and 9.
- * If they are not found, a warning is displayed. This test does not trigger a fail due to its random input.
- */
+// Tests the numeric generation, taking sample of generated numbers
+// and searching for 0 and 9. If they are not found, a warning is displayed.
+// This test does not trigger a fail due to its random input.
 func TestNumeric(t *testing.T) {
 	var sample []byte
 
