@@ -9,9 +9,11 @@ import (
 func main() {
 	log.SetFlags(0)
 
-	mode := flag.String("m", "a", "mode:\n    a - alphanumeric\n    d - diceware\n    n - numeric")
-	pwLen := flag.Int("l", DEFAULT_LENGTH, fmt.Sprintf("password length, max %d characters", MAX_PW_LENGTH))
-	wordList := flag.String("f", DEFAULT_WL, "file with word list for diceware mode")
+	var (
+		mode     = flag.String("m", "a", "mode:\n    a - alphanumeric\n    d - diceware\n    n - numeric")
+		pwLen    = flag.Int("l", DEFAULT_LENGTH, fmt.Sprintf("password length, max %d characters", MAX_PW_LENGTH))
+		wordList = flag.String("f", DEFAULT_WL, "file with word list for diceware mode")
+	)
 
 	flag.Parse()
 
