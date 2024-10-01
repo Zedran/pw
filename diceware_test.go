@@ -10,9 +10,8 @@ import (
 func TestGeneratePhrases(t *testing.T) {
 	cases := []int{1, 4, 75, MAX_PW_LENGTH}
 
-	var output string
-	for i := range output {
-		output = string(GeneratePhrases(cases[i], DEFAULT_WL))
+	for i := range cases {
+		output := GeneratePhrases(cases[i], DEFAULT_WL)
 
 		if len(strings.Split(output, " ")) != cases[i] {
 			t.Errorf("Failed for case '%d'. Output: '%s'", cases[i], output)
