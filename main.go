@@ -10,6 +10,7 @@ func main() {
 	log.SetFlags(0)
 
 	var (
+		exclude  = flag.String("e", "", "Exclude the selected characters from password")
 		include  = flag.String("i", "Aans", "Charset for character password:\n    A - upper case\n    a - lower case\n    n - numbers\n    s - symbols\n")
 		mode     = flag.String("m", "c", "Generation mode:\n    c - character password\n    w - phrase password\n\n")
 		noLF     = flag.Bool("n", false, "Do not print an LF character at the end")
@@ -31,7 +32,7 @@ func main() {
 
 	switch *mode {
 	case "c":
-		p, err = password(*pwLen, *include)
+		p, err = password(*pwLen, *include, *exclude)
 	case "w":
 		p = GeneratePhrases(*pwLen, *wordList, *sep)
 	default:

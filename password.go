@@ -14,11 +14,15 @@ import (
 //   - n : numbers
 //   - s : symbols
 //
+// The exclude variable contains characters that are excluded
+// from the compiled charset.
+//
 // Returns an error if:
 //   - set is an empty string
 //   - set contains more than one specifier of the same kind
 //   - set contains an undefined specifier
-func compileCharset(set string) (string, error) {
+//   - exclude contains all characters from the selected charset
+func compileCharset(set, exclude string) (string, error) {
 	const (
 		upper   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 		lower   = "abcdefghijklmnopqrstuvwxyz"
@@ -50,13 +54,25 @@ func compileCharset(set string) (string, error) {
 			return "", errors.New("undefined charset specifier")
 		}
 	}
-	return charset.String(), nil
+
+	s := charset.String()
+	for _, c := range exclude {
+		s = strings.ReplaceAll(s, string(c), "")
+	}
+
+	if len(s) == 0 {
+		return "", errors.New("empty charset due to exclusions")
+	}
+
+	return s, nil
 }
 
 // password generates a character password of the specified length.
-// The charset used to generate a password is determined by byte values in set.
-func password(length int, set string) (string, error) {
-	charset, err := compileCharset(set)
+// The charset used to generate a password is determined by byte values in set
+// and the exclude variable, which contains the characters that are to be
+// removed from the compiled charset.
+func password(length int, set, exclude string) (string, error) {
+	charset, err := compileCharset(set, exclude)
 	if err != nil {
 		return "", fmt.Errorf("charset compilation error: %w", err)
 	}
