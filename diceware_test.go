@@ -27,10 +27,12 @@ func TestGeneratePhrases(t *testing.T) {
 // falls outside the range <0, wordPool). Due to the nature of the random
 // output, not meeting a criteria does not fail the test.
 func TestGetRandomNumbers(t *testing.T) {
-	var (
-		wordPool   int64 = 7776 // The length of a list for 5 dices
-		sampleSize       = 300000
+	const (
+		wordPool   = 7776 // The length of a list for 5 dices
+		sampleSize = 300000
+	)
 
+	var (
 		sample = GetRandomNumbers(sampleSize, int(wordPool))
 
 		zeroPresent  = false
