@@ -20,11 +20,11 @@ func main() {
 	}
 
 	switch *mode {
-	case "a": // Alphanumeric
+	case "a":
 		fmt.Println(Alphanumeric(*pwLen))
-	case "d": // Diceware
+	case "d":
 		fmt.Println(GeneratePhrases(*pwLen, *wordList))
-	case "n": // Numeric
+	case "n":
 		fmt.Println(Numeric(*pwLen))
 	default:
 		log.Fatal("invalid mode argument\n")
