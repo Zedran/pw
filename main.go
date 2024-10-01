@@ -7,14 +7,6 @@ import (
 )
 
 const (
-	// Alphanumeric bounds
-	MIN_ALPHANUM_CODE = 33  // From '!'
-	MAX_ALPHANUM_CODE = 125 // Up to '}'
-
-	// Numeric bounds
-	ASCII_ZERO = 48
-	ASCII_NINE = ASCII_ZERO + 9
-
 	// Maximum permitted password length
 	MAX_PW_LENGTH = 4096
 
