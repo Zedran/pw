@@ -39,19 +39,24 @@ func TestValidateLength(t *testing.T) {
 // not found, a warning is displayed. This test does not trigger a fail
 // due to its random input.
 func TestAlphanumeric(t *testing.T) {
-	var sample []byte
+	var b strings.Builder
 
 	for i := 0; i < 10; i++ {
-		sample = append(sample, Alphanumeric(MAX_PW_LENGTH)...)
+		n, err := b.WriteString(Alphanumeric(MAX_PW_LENGTH))
+		if err != nil {
+			t.Fatalf("strings.Builder.WriteString failed: %v", err)
+		} else if n != MAX_PW_LENGTH {
+			t.Fatalf("Incorrect number of bytes written: %d instead of %d", n, MAX_PW_LENGTH)
+		}
 	}
 
-	strSample := string(sample)
+	sample := b.String()
 
-	if !strings.Contains(strSample, string(byte(MIN_ALPHANUM_CODE))) {
+	if !strings.Contains(sample, string(byte(MIN_ALPHANUM_CODE))) {
 		t.Log("Check ASCII range - first code not found")
 	}
 
-	if !strings.Contains(strSample, string(byte(MAX_ALPHANUM_CODE))) {
+	if !strings.Contains(sample, string(byte(MAX_ALPHANUM_CODE))) {
 		t.Log("Check ASCII range - last code not found")
 	}
 }
@@ -60,19 +65,24 @@ func TestAlphanumeric(t *testing.T) {
 // and searching for 0 and 9. If they are not found, a warning is displayed.
 // This test does not trigger a fail due to its random input.
 func TestNumeric(t *testing.T) {
-	var sample []byte
+	var b strings.Builder
 
 	for i := 0; i < 10; i++ {
-		sample = append(sample, Numeric(MAX_PW_LENGTH)...)
+		n, err := b.WriteString(Numeric(MAX_PW_LENGTH))
+		if err != nil {
+			t.Fatalf("strings.Builder.WriteString failed: %v", err)
+		} else if n != MAX_PW_LENGTH {
+			t.Fatalf("Incorrect number of bytes written: %d instead of %d", n, MAX_PW_LENGTH)
+		}
 	}
 
-	strSample := string(sample)
+	sample := b.String()
 
-	if !strings.Contains(strSample, string(byte(ASCII_ZERO))) {
+	if !strings.Contains(sample, string(byte(ASCII_ZERO))) {
 		t.Log("Check numeric range. First code not found")
 	}
 
-	if !strings.Contains(strSample, string(byte(ASCII_NINE))) {
+	if !strings.Contains(sample, string(byte(ASCII_NINE))) {
 		t.Log("Check numeric range. Last code not found")
 	}
 }
