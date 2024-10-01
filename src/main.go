@@ -23,6 +23,16 @@ const (
 	DEFAULT_LENGTH = 6
 )
 
+// Returns a random string of alphanumeric and sign characters.
+func Alphanumeric(length int) string {
+	return randomStream(MIN_ALPHANUM_CODE, MAX_ALPHANUM_CODE, length)
+}
+
+// Returns a random string of numeric characters.
+func Numeric(length int) string {
+	return randomStream(ASCII_ZERO, ASCII_NINE, length)
+}
+
 // Generates random stream of bytes and transforms them to fit
 // within the specified range.
 func randomStream(min, max, length int) string {
@@ -59,11 +69,11 @@ func main() {
 
 	switch *mode {
 	case "a": // Alphanumeric
-		fmt.Println(randomStream(MIN_ALPHANUM_CODE, MAX_ALPHANUM_CODE, *pwLen))
+		fmt.Println(Alphanumeric(*pwLen))
 	case "d": // Diceware
 		fmt.Println(GeneratePhrases(*pwLen, *wordList))
 	case "n": // Numeric
-		fmt.Println(randomStream(ASCII_ZERO, ASCII_NINE, *pwLen))
+		fmt.Println(Numeric(*pwLen))
 	default:
 		log.Fatal("invalid mode argument\n")
 	}
