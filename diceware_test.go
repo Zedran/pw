@@ -8,12 +8,14 @@ import (
 // Tests Generate Phrases function for the correct number of words generated.
 // Incorrect words count fails the test.
 func TestGeneratePhrases(t *testing.T) {
+	const sep = "_sep_"
+
 	cases := []int{1, 4, 75, MAX_PW_LENGTH}
 
 	for i := range cases {
-		output := GeneratePhrases(cases[i], DEFAULT_WL)
+		output := GeneratePhrases(cases[i], DEFAULT_WL, sep)
 
-		if len(strings.Split(output, " ")) != cases[i] {
+		if len(strings.Split(output, sep)) != cases[i] {
 			t.Errorf("Failed for case '%d'. Output: '%s'", cases[i], output)
 		}
 	}

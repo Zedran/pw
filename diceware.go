@@ -9,12 +9,15 @@ import (
 )
 
 // File name of the default word list
-const DEFAULT_WL string = "embed/eff"
+const (
+	DEFAULT_SEP string = " "
+	DEFAULT_WL  string = "embed/eff"
+)
 
 // Generates a string containing random space-separated words for the user to
-// join together in a password. Takes 2 arguments: a count of words
-// and the name of the file containing a word list.
-func GeneratePhrases(count int, wordListName string) string {
+// join together in a password. Takes 3 arguments: a count of words,
+// the name of the file containing a word list and word separator.
+func GeneratePhrases(count int, wordListName, sep string) string {
 	var phrases = make([]string, count)
 
 	wordList, err := loadWordList(wordListName)
@@ -28,7 +31,7 @@ func GeneratePhrases(count int, wordListName string) string {
 		phrases[i] = wordList[numbers[i]]
 	}
 
-	return strings.Join(phrases, " ")
+	return strings.Join(phrases, sep)
 }
 
 // Returns a slice of random integers range <0, wordPool).

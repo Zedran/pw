@@ -12,6 +12,7 @@ func main() {
 	var (
 		mode     = flag.String("m", "a", "mode:\n    a - alphanumeric\n    d - diceware\n    n - numeric")
 		pwLen    = flag.Int("l", DEFAULT_LENGTH, fmt.Sprintf("password length, max %d characters", MAX_PW_LENGTH))
+		sep      = flag.String("s", DEFAULT_SEP, "word separator for diceware mode")
 		wordList = flag.String("f", DEFAULT_WL, "file with word list for diceware mode")
 	)
 
@@ -25,7 +26,7 @@ func main() {
 	case "a":
 		fmt.Println(Alphanumeric(*pwLen))
 	case "d":
-		fmt.Println(GeneratePhrases(*pwLen, *wordList))
+		fmt.Println(GeneratePhrases(*pwLen, *wordList, *sep))
 	case "n":
 		fmt.Println(Numeric(*pwLen))
 	default:
