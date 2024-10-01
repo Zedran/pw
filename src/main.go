@@ -59,7 +59,7 @@ func main() {
 
 	flag.Parse()
 
-	if ValidateLength(*pwLen) == false {
+	if !ValidateLength(*pwLen) {
 		displayErrorMessage(fmt.Sprintf("length must be an integer in range (0; %d>\n", MAX_PW_LENGTH))
 	}
 
