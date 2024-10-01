@@ -10,7 +10,8 @@ func main() {
 	log.SetFlags(0)
 
 	var (
-		mode     = flag.String("m", "a", "Generation mode:\n    a - alphanumeric\n    d - diceware\n    n - numeric\n")
+		include  = flag.String("i", "Aans", "Charset for character password:\n    A - upper case\n    a - lower case\n    n - numbers\n    s - symbols\n")
+		mode     = flag.String("m", "c", "Generation mode:\n    c - character password\n    w - phrase password\n\n")
 		noLF     = flag.Bool("n", false, "Do not print an LF character at the end")
 		pwLen    = flag.Int("l", DEFAULT_LENGTH, fmt.Sprintf("Password length, <1; %d> characters", MAX_PW_LENGTH))
 		sep      = flag.String("s", DEFAULT_SEP, "Word separator for diceware mode")
@@ -23,16 +24,22 @@ func main() {
 		log.Fatalf("length must be an integer in range <1; %d>\n", MAX_PW_LENGTH)
 	}
 
-	var p string
+	var (
+		p   string
+		err error
+	)
+
 	switch *mode {
-	case "a":
-		p = Alphanumeric(*pwLen)
-	case "d":
+	case "c":
+		p, err = password(*pwLen, *include)
+	case "w":
 		p = GeneratePhrases(*pwLen, *wordList, *sep)
-	case "n":
-		p = Numeric(*pwLen)
 	default:
 		log.Fatal("invalid mode argument\n")
+	}
+
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	if *noLF {
