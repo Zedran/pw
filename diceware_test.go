@@ -65,10 +65,14 @@ func TestGetRandomNumbers(t *testing.T) {
 // word list format fails the test.
 func TestLoadWordList(t *testing.T) {
 	var (
-		wordList         = LoadWordList(DEFAULT_WL)
 		emptyLinePresent = false
 		newLinesPresent  = false
 	)
+
+	wordList, err := loadWordList(DEFAULT_WL)
+	if err != nil {
+		t.Fatalf("Failed to load word list: %v", err)
+	}
 
 	for i := range wordList {
 		if len(strings.TrimSpace(wordList[i])) == 0 {
