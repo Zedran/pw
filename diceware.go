@@ -8,16 +8,8 @@ import (
 	"strings"
 )
 
-const (
-	// Word separator inside the word list file
-	WL_SEP string = "\n"
-
-	// Word separator in the output string
-	OUTPUT_SEP string = " "
-
-	// File name of the default word list
-	DEFAULT_WL string = "embed/eff"
-)
+// File name of the default word list
+const DEFAULT_WL string = "embed/eff"
 
 // Generates a string containing random space-separated words for the user to
 // join together in a password. Takes 2 arguments: a count of words
@@ -36,7 +28,7 @@ func GeneratePhrases(count int, wordListName string) string {
 		phrases[i] = wordList[numbers[i]]
 	}
 
-	return strings.Join(phrases, OUTPUT_SEP)
+	return strings.Join(phrases, " ")
 }
 
 // Returns a slice of random integers range <0, wordPool).

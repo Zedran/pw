@@ -6,14 +6,6 @@ import (
 	"log"
 )
 
-const (
-	// Maximum permitted password length
-	MAX_PW_LENGTH = 4096
-
-	// Default password length
-	DEFAULT_LENGTH = 6
-)
-
 func main() {
 	log.SetFlags(0)
 

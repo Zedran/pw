@@ -6,6 +6,12 @@ import (
 )
 
 const (
+	// Default password length
+	DEFAULT_LENGTH = 6
+
+	// Maximum permitted password length
+	MAX_PW_LENGTH = 4096
+
 	// Alphanumeric bounds
 	MIN_ALPHANUM_CODE = 33  // From '!'
 	MAX_ALPHANUM_CODE = 125 // Up to '}'

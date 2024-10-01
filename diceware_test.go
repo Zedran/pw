@@ -14,7 +14,7 @@ func TestGeneratePhrases(t *testing.T) {
 	for i := range output {
 		output = string(GeneratePhrases(cases[i], DEFAULT_WL))
 
-		if len(strings.Split(output, OUTPUT_SEP)) != cases[i] {
+		if len(strings.Split(output, " ")) != cases[i] {
 			t.Errorf("Failed for case '%d'. Output: '%s'", cases[i], output)
 		}
 	}
@@ -77,7 +77,7 @@ func TestLoadWordList(t *testing.T) {
 	for i := range wordList {
 		if len(strings.TrimSpace(wordList[i])) == 0 {
 			emptyLinePresent = true
-		} else if strings.Contains(wordList[i], WL_SEP) {
+		} else if strings.Contains(wordList[i], "\n") {
 			newLinesPresent = true
 		}
 	}
