@@ -34,7 +34,7 @@ func main() {
 	case "c":
 		p, err = password(*pwLen, *include, *exclude)
 	case "w":
-		p = passphrase(*pwLen, *wordList, *sep)
+		p, err = passphrase(*pwLen, *wordList, *sep)
 	default:
 		log.Fatal("invalid mode argument\n")
 	}

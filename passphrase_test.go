@@ -13,7 +13,10 @@ func TestGeneratePhrases(t *testing.T) {
 	cases := []int{1, 4, 75, MAX_PW_LENGTH}
 
 	for i := range cases {
-		output := passphrase(cases[i], DEFAULT_WL, sep)
+		output, err := passphrase(cases[i], DEFAULT_WL, sep)
+		if err != nil {
+			t.Fatalf("failed to generate passphrase: %v", err)
+		}
 
 		if len(strings.Split(output, sep)) != cases[i] {
 			t.Errorf("Failed for case '%d'. Output: '%s'", cases[i], output)
@@ -32,9 +35,12 @@ func TestGetRandomNumbers(t *testing.T) {
 		sampleSize = 300000
 	)
 
-	var (
-		sample = GetRandomNumbers(sampleSize, int(wordPool))
+	sample, err := GetRandomNumbers(sampleSize, int(wordPool))
+	if err != nil {
+		t.Fatalf("failed to generate random numbers: %v", err)
+	}
 
+	var (
 		zeroPresent  = false
 		maxPresent   = false
 		correctRange = true

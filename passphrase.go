@@ -2,7 +2,6 @@ package main
 
 import (
 	"crypto/rand"
-	"log"
 	"math/big"
 	"os"
 	"strings"
@@ -16,25 +15,28 @@ const (
 
 // Builds a phrase of the specified length from word list file
 // at the specified path. Words are separated by sep.
-func passphrase(length int, wordListPath, sep string) string {
+func passphrase(length int, wordListPath, sep string) (string, error) {
 	var phrases = make([]string, length)
 
 	wordList, err := readWordList(wordListPath)
 	if err != nil {
-		log.Fatalf("Failed to load %s: %v", wordListPath, err)
+		return "", err
 	}
 
-	numbers := GetRandomNumbers(length, len(wordList))
+	numbers, err := GetRandomNumbers(length, len(wordList))
+	if err != nil {
+		return "", err
+	}
 
 	for i := range numbers {
 		phrases[i] = wordList[numbers[i]]
 	}
 
-	return strings.Join(phrases, sep)
+	return strings.Join(phrases, sep), nil
 }
 
 // Returns a slice of random integers range <0, wordPool).
-func GetRandomNumbers(count int, wordPool int) []int64 {
+func GetRandomNumbers(count int, wordPool int) ([]int64, error) {
 	var (
 		max  = big.NewInt(int64(wordPool))
 		nums = make([]int64, count)
@@ -43,13 +45,13 @@ func GetRandomNumbers(count int, wordPool int) []int64 {
 	for i := range nums {
 		n, err := rand.Int(rand.Reader, max)
 		if err != nil {
-			log.Fatal(err)
+			return nil, err
 		}
 
 		nums[i] = n.Int64()
 	}
 
-	return nums
+	return nums, nil
 }
 
 // Returns a slice of words for passphrase generator, reading it from
