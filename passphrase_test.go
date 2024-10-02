@@ -13,7 +13,7 @@ func TestGeneratePhrases(t *testing.T) {
 	cases := []int{1, 4, 75, MAX_PW_LENGTH}
 
 	for i := range cases {
-		output := GeneratePhrases(cases[i], DEFAULT_WL, sep)
+		output := passphrase(cases[i], DEFAULT_WL, sep)
 
 		if len(strings.Split(output, sep)) != cases[i] {
 			t.Errorf("Failed for case '%d'. Output: '%s'", cases[i], output)
