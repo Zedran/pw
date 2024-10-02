@@ -11,8 +11,8 @@ func main() {
 
 	var (
 		exclude  = flag.String("e", "", "Exclude characters in password mode")
-		include  = flag.String("i", "Aans", "Include character groups in charset for the password generator:\n    A - upper case\n    a - lower case\n    n - numbers\n    s - symbols\n")
-		mode     = flag.String("m", "c", "Generation mode:\n    c - password (characters)\n    w - passphrase (words)\n\n")
+		include  = flag.String("i", "Aans", "Include character groups in charset for the password generator:\n\tA - upper case\n\ta - lower case\n\tn - numbers\n\ts - symbols\n")
+		mode     = flag.String("m", "c", "Generation mode:\n\tc - password\t(characters)\n\tw - passphrase\t(words)\n\n")
 		noLF     = flag.Bool("n", false, "Do not print an LF character at the end")
 		pwLen    = flag.Int("l", DEFAULT_LENGTH, fmt.Sprintf("Number of generated elements: <1; %d> characters or words", MAX_PW_LENGTH))
 		sep      = flag.String("s", DEFAULT_SEP, "Word separator for passphrase mode")
