@@ -27,7 +27,7 @@ func compileCharset(set, exclude string) (string, error) {
 		upper   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 		lower   = "abcdefghijklmnopqrstuvwxyz"
 		numbers = "0123456789"
-		symbols = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
+		symbols = " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
 	)
 
 	if len(set) == 0 {
