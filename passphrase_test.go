@@ -72,7 +72,7 @@ func TestLoadWordList(t *testing.T) {
 		newLinesPresent  = false
 	)
 
-	wordList, err := loadWordList(DEFAULT_WL)
+	wordList, err := readWordList(DEFAULT_WL)
 	if err != nil {
 		t.Fatalf("Failed to load word list: %v", err)
 	}

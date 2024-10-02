@@ -19,7 +19,7 @@ const (
 func passphrase(length int, wordListPath, sep string) string {
 	var phrases = make([]string, length)
 
-	wordList, err := loadWordList(wordListPath)
+	wordList, err := readWordList(wordListPath)
 	if err != nil {
 		log.Fatalf("Failed to load %s: %v", wordListPath, err)
 	}
@@ -54,7 +54,7 @@ func GetRandomNumbers(count int, wordPool int) []int64 {
 
 // Returns a slice of words for passphrase generator, reading it from
 // the embedded file system or OS path.
-func loadWordList(path string) ([]string, error) {
+func readWordList(path string) ([]string, error) {
 	var load func(string) ([]byte, error)
 
 	if path == DEFAULT_WL {
