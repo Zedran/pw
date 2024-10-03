@@ -3,7 +3,82 @@ package main
 import (
 	"strings"
 	"testing"
+
+	"github.com/Zedran/pw/internal/tests"
 )
+
+func TestPassphraseBias(t *testing.T) {
+	const (
+		P_LEN       = 10
+		SAMPLE_SIZE = 10_000
+		CRIT_VALUE  = tests.CRIT_PASSPHRASE
+
+		// chisqr <|> CRIT_VALUE [biased]
+		FMT = "%.3f (%s%.3f) %s\n"
+	)
+
+	wl, err := readWordList(DEFAULT_WL)
+	if err != nil {
+		t.Fatalf("failed to load word list: %v", err)
+	}
+
+	occurences := make([]float64, len(wl))
+
+	for range SAMPLE_SIZE {
+		pp, err := passphrase(P_LEN, DEFAULT_WL, DEFAULT_SEP)
+		if err != nil {
+			t.Fatalf("failed to generate passphrase")
+		}
+
+		s := strings.Split(pp, DEFAULT_SEP)
+
+		for i, w := range wl {
+			occurences[i] = tests.Count(s, w)
+		}
+	}
+
+	if chisqr, biased := tests.SampleBiased(occurences, CRIT_VALUE); biased {
+		t.Fatalf(FMT, chisqr, ">", CRIT_VALUE, "-- biased")
+	} else {
+		t.Logf(FMT, chisqr, "<", CRIT_VALUE, "")
+	}
+}
+
+func TestPasswordBias(t *testing.T) {
+	const (
+		P_LEN       = 20
+		SET         = "Aans"
+		SAMPLE_SIZE = 10_000
+		CRIT_VALUE  = tests.CRIT_PASSWORD
+
+		// chisqr <|> CRIT_VALUE [biased]
+		FMT = "%.3f (%s%.3f) %s\n"
+	)
+
+	charset, err := compileCharset(SET, "")
+	if err != nil {
+		t.Fatalf("charset compilation error: %v", err)
+	}
+
+	occurences := make([]float64, len(charset))
+
+	for range SAMPLE_SIZE {
+		pw, err := password(P_LEN, SET, "")
+		if err != nil {
+			t.Fatalf("password function returned an error: %v", err)
+		}
+
+		for i, b := range charset {
+			occurences[i] += float64(strings.Count(pw, string(b)))
+		}
+	}
+
+	if chisqr, biased := tests.SampleBiased(occurences, CRIT_VALUE); biased {
+		t.Fatalf(FMT, chisqr, ">", CRIT_VALUE, "-- biased")
+	} else {
+		t.Logf(FMT, chisqr, "<", CRIT_VALUE, "")
+	}
+}
 
 func TestCompileCharset(t *testing.T) {
 	errCases := []string{
