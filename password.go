@@ -4,6 +4,7 @@ import (
 	"crypto/rand"
 	"errors"
 	"fmt"
+	mrand "math/rand/v2"
 	"strings"
 )
 
@@ -63,6 +64,12 @@ func compileCharset(set, exclude string) (string, error) {
 	if len(s) == 0 {
 		return "", errors.New("empty charset due to exclusions")
 	}
+
+	b := []byte(s)
+	mrand.Shuffle(len(b), func(i, j int) {
+		b[i], b[j] = b[j], b[i]
+	})
+	s = string(b)
 
 	return s, nil
 }
