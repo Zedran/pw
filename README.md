@@ -5,7 +5,7 @@ A command line password generator written in Go. It can generate a password or p
 ## Quickstart
 
 ```
-go install github.com/Zedran/pw
+go install github.com/Zedran/pw@latest
 ```
 
 ### Flags
