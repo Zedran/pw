@@ -12,6 +12,7 @@ go install github.com/Zedran/pw@latest
 
 | Flag   | Description                                                              |
 |:-------|:-------------------------------------------------------------------------|
+| `-E`   | Calculate entropy for password with selected parameters and exit         |
 | `-h`   | Display help                                                             |
 | `-l`   | Specify the desired number of elements (default 6)                       |
 | `-m`   | Specify generation mode (default `c`)                                    |

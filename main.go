@@ -10,6 +10,7 @@ func main() {
 	log.SetFlags(0)
 
 	var (
+		entropy  = flag.Bool("E", false, "Calculate entropy for password with selected parameters and exit")
 		exclude  = flag.String("e", "", "Exclude characters in password mode")
 		include  = flag.String("i", "Aans", "Include character groups in charset for the password generator:\n\tA - upper case\n\ta - lower case\n\tn - numbers\n\ts - symbols\n")
 		mode     = flag.String("m", "c", "Generation mode:\n\tc - password\t(characters)\n\tw - passphrase\t(words)\n\n")
@@ -32,9 +33,25 @@ func main() {
 
 	switch *mode {
 	case "c":
-		p, err = password(*pwLen, *include, *exclude)
+		if !*entropy {
+			p, err = password(*pwLen, *include, *exclude)
+		} else {
+			n, err := entropyC(*pwLen, *include, *exclude)
+			if err != nil {
+				log.Fatal(err)
+			}
+			p = fmt.Sprintf("%.2f", n)
+		}
 	case "w":
-		p, err = passphrase(*pwLen, *wordList, *sep)
+		if !*entropy {
+			p, err = passphrase(*pwLen, *wordList, *sep)
+		} else {
+			n, err := entropyW(*pwLen, *wordList)
+			if err != nil {
+				log.Fatal(err)
+			}
+			p = fmt.Sprintf("%.2f", n)
+		}
 	default:
 		log.Fatal("invalid mode argument\n")
 	}
