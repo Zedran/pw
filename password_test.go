@@ -33,7 +33,7 @@ func TestPassphraseBias(t *testing.T) {
 		s := strings.Split(pp, DEFAULT_SEP)
 
 		for i, w := range wl {
-			occurences[i] = tests.Count(s, w)
+			occurences[i] += tests.Count(s, w)
 		}
 	}
 
