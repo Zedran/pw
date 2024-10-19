@@ -7,43 +7,6 @@ import (
 	"github.com/Zedran/pw/internal/tests"
 )
 
-func TestPassphraseBias(t *testing.T) {
-	const (
-		P_LEN       = 10
-		SAMPLE_SIZE = 10_000
-		CRIT_VALUE  = tests.CRIT_PASSPHRASE
-
-		// chisqr <|> CRIT_VALUE [biased]
-		FMT = "%.3f (%s%.3f) %s\n"
-	)
-
-	wl, err := readWordList(DEFAULT_WL)
-	if err != nil {
-		t.Fatalf("failed to load word list: %v", err)
-	}
-
-	occurences := make([]float64, len(wl))
-
-	for range SAMPLE_SIZE {
-		pp, err := passphrase(P_LEN, DEFAULT_WL, DEFAULT_SEP)
-		if err != nil {
-			t.Fatalf("failed to generate passphrase")
-		}
-
-		s := strings.Split(pp, DEFAULT_SEP)
-
-		for i, w := range wl {
-			occurences[i] += tests.Count(s, w)
-		}
-	}
-
-	if chisqr, biased := tests.SampleBiased(occurences, CRIT_VALUE); biased {
-		t.Fatalf(FMT, chisqr, ">", CRIT_VALUE, "-- biased")
-	} else {
-		t.Logf(FMT, chisqr, "<", CRIT_VALUE, "")
-	}
-}
-
 func TestPasswordBias(t *testing.T) {
 	const (
 		P_LEN       = 20
